@@ -1,5 +1,6 @@
 local RSGCore = exports['rsg-core']:GetCoreObject()
 local roundtemp = 0
+local cashAmount = 0
 
 local ClothesCats = {
     0x9925C067, --hat
@@ -13,7 +14,7 @@ local ClothesCats = {
     0xAF14310B, -- poncho
 }
 
--- check ped clothes
+-- check ped clothes / money
 Citizen.CreateThread(function()
     while true do
         Wait(1500)
@@ -28,20 +29,18 @@ Citizen.CreateThread(function()
                 roundtemp = roundtemp + 1
             end
         end
+        RSGCore.Functions.GetPlayerData(function(PlayerData)
+            cashAmount = PlayerData.money['cash']
+        end)
     end
 end)
 
 Citizen.CreateThread(function()
     while true do
         Wait(5)
+        -- get ID and display
         DrawTxt("ID:"..tonumber(GetPlayerServerId(PlayerId())), 0.02, 0.95, 0.4, 0.4, true, 255, 255, 255, 255, true, 10000)
-    end
-end)
-
--- local PlayerId = GetPlayerServerId(PlayerId())
-Citizen.CreateThread(function()
-    while true do
-        Wait(5)
+        -- get temp and display
         if tonumber(roundtemp) <= 0 then
             DrawTxt(""..tonumber(roundtemp).."°c", 0.06, 0.95, 0.4, 0.4, true, 50, 72, 255, 255, true, 10000)
         elseif tonumber(roundtemp) < 3 then 
@@ -49,6 +48,7 @@ Citizen.CreateThread(function()
         elseif tonumber(roundtemp) then
             DrawTxt(""..tonumber(roundtemp).."°c", 0.06, 0.95, 0.4, 0.4, true, 255, 255, 255, 255, true, 10000)
         end
+        DrawTxt("$:"..string.format("%.2f", cashAmount), 0.12, 0.95, 0.4, 0.4, true, 255, 255, 255, 255, true, 10000)
     end
 end)
 
