@@ -73,27 +73,27 @@ end)
 Citizen.CreateThread(function()
     while true do
         Wait(5000)
-		if isLoggedIn then
-			ped = PlayerPedId()
-			health = GetEntityHealth(ped)
-			coords = GetEntityCoords(ped)
-			if tonumber(roundtemp) <= -8 then
-				SetEntityHealth(ped,health  - 5)
-			elseif tonumber(roundtemp) <= -6 then
-				SetEntityHealth(ped,health  - 2)
-			elseif tonumber(roundtemp) <= -4 then
-				SetEntityHealth(ped,health  - 1)
-			end
-			if health > 0 and health < 50 and tonumber(roundtemp) > 0 then 
-				SetEntityHealth(ped,health  - 1)
-				PlayPain(ped, 9, 1, true, true)
-				Citizen.InvokeNative(0x4102732DF6B4005F, "MP_Downed", 0, true) -- AnimpostfxPlay
-			else
-				if Citizen.InvokeNative(0x4A123E85D7C4CA0B, "MP_Downed") then -- AnimpostfxIsRunning
-					Citizen.InvokeNative(0xB4FD7446BAB2F394, "MP_Downed") -- AnimpostfxStop
-				end
-			end
-		end
+        if isLoggedIn then
+            ped = PlayerPedId()
+            health = GetEntityHealth(ped)
+            coords = GetEntityCoords(ped)
+            if tonumber(roundtemp) <= -8 then
+                SetEntityHealth(ped,health  - 5)
+            elseif tonumber(roundtemp) <= -6 then
+                SetEntityHealth(ped,health  - 2)
+            elseif tonumber(roundtemp) <= -4 then
+                SetEntityHealth(ped,health  - 1)
+            end
+            if health > 0 and health < 50 and tonumber(roundtemp) > 0 then 
+                SetEntityHealth(ped,health  - 1)
+                PlayPain(ped, 9, 1, true, true)
+                Citizen.InvokeNative(0x4102732DF6B4005F, "MP_Downed", 0, true) -- AnimpostfxPlay
+            else
+                if Citizen.InvokeNative(0x4A123E85D7C4CA0B, "MP_Downed") then -- AnimpostfxIsRunning
+                    Citizen.InvokeNative(0xB4FD7446BAB2F394, "MP_Downed") -- AnimpostfxStop
+                end
+            end
+        end
     end
 end)
 
