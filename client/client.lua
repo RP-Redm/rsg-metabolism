@@ -53,18 +53,7 @@ Citizen.CreateThread(function()
     while true do
         Wait(5)
         if isLoggedIn then
-            -- get ID and display
-            DrawTxt("ID:"..tonumber(GetPlayerServerId(PlayerId())), 0.02, 0.95, 0.4, 0.4, true, 255, 255, 255, 255, true, 10000)
-            -- get temp and display
-            if tonumber(roundtemp) <= 0 then
-                DrawTxt(""..tonumber(roundtemp).."°c", 0.06, 0.95, 0.4, 0.4, true, 50, 72, 255, 255, true, 10000)
-            elseif tonumber(roundtemp) < 3 then 
-                DrawTxt(""..tonumber(roundtemp).."°c", 0.06, 0.95, 0.4, 0.4, true, 3, 231, 255, 255, true, 10000)
-            elseif tonumber(roundtemp) then
-                DrawTxt(""..tonumber(roundtemp).."°c", 0.06, 0.95, 0.4, 0.4, true, 255, 255, 255, 255, true, 10000)
-            end
-            -- get cash and display
-            DrawTxt("$:"..string.format("%.2f", cashAmount), 0.12, 0.95, 0.4, 0.4, true, 255, 255, 255, 255, true, 10000)
+            DrawTxt("ID : "..tonumber(GetPlayerServerId(PlayerId())).."  - Temp : "..tonumber(roundtemp).."°c - Cash : $"..string.format("%.2f", cashAmount), 0.01, 0.97, 0.4, 0.4, true, 255, 255, 255, 255, true)
         end
     end
 end)
@@ -101,11 +90,10 @@ function foo(n)
     return string.format("%.1f", n / 10^8)
 end
 
-function DrawTxt(str, x, y, w, h, enableShadow, col1, col2, col3, a, centre)
+function DrawTxt(str, x, y, w, h, enableShadow, col1, col2, col3, a)
     local str = CreateVarString(10, "LITERAL_STRING", str, Citizen.ResultAsLong())
     SetTextScale(w, h)
     SetTextColor(math.floor(col1), math.floor(col2), math.floor(col3), math.floor(a))
-    SetTextCentre(centre)
     if enableShadow then 
         SetTextDropshadow(1, 0, 0, 0, 255) 
     end
