@@ -3,6 +3,7 @@ local isLoggedIn = false
 local PlayerData = {}
 local roundtemp = 0
 local cashAmount = 0
+local incinematic = false
 
 AddEventHandler('RSGCore:Client:OnPlayerLoaded', function()
     isLoggedIn = true
@@ -52,7 +53,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         Wait(5)
-        if isLoggedIn then
+        if isLoggedIn and incinematic == false then
             DrawTxt("ID : "..tonumber(GetPlayerServerId(PlayerId())).."  - Temp : "..tonumber(roundtemp).."°c - Cash : $"..string.format("%.2f", cashAmount), 0.01, 0.97, 0.4, 0.4, true, 255, 255, 255, 255, true)
         end
     end
@@ -100,3 +101,18 @@ function DrawTxt(str, x, y, w, h, enableShadow, col1, col2, col3, a)
     Citizen.InvokeNative(0xADA9255D, 10);
     DisplayText(str, x, y)
 end
+
+-- check cinematic and hide hud
+CreateThread(function()
+    while true do
+        if LocalPlayer.state['isLoggedIn'] then
+            local cinematic = Citizen.InvokeNative(0xBF7C780731AADBF8, Citizen.ResultAsInteger())
+            if cinematic == 1 then
+                incinematic = true
+            else
+                incinematic = false
+            end
+        end
+        Wait(500)
+    end
+end)
