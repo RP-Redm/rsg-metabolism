@@ -4,6 +4,7 @@ local PlayerData = {}
 local roundtemp = 0
 local cashAmount = 0
 local incinematic = false
+local inBathing = false
 
 AddEventHandler('RSGCore:Client:OnPlayerLoaded', function()
     isLoggedIn = true
@@ -53,7 +54,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         Wait(5)
-        if isLoggedIn and incinematic == false then
+        if isLoggedIn and incinematic == false and inBathing == false then
             DrawTxt("ID : "..tonumber(GetPlayerServerId(PlayerId())).."  - Temp : "..tonumber(roundtemp).."°c - Time : "..string.format("%0.2d", GetClockHours())..":"..string.format("%0.2d", GetClockMinutes()).." - Cash : $"..string.format("%.2f", cashAmount), 0.01, 0.97, 0.4, 0.4, true, 255, 255, 255, 255, true)
         end
     end
@@ -107,12 +108,21 @@ CreateThread(function()
     while true do
         if LocalPlayer.state['isLoggedIn'] then
             local cinematic = Citizen.InvokeNative(0xBF7C780731AADBF8, Citizen.ResultAsInteger())
+            local isBathingActive = exports['rsg-bathing']:IsBathingActive()
+
             if cinematic == 1 then
                 incinematic = true
             else
                 incinematic = false
             end
+
+            if isBathingActive then
+                inBathing = true
+            else
+                inBathing = false
+            end
         end
+
         Wait(500)
     end
 end)
