@@ -5,6 +5,12 @@ local roundtemp = 0
 local cashAmount = 0
 local incinematic = false
 local inBathing = false
+local showUI = true
+
+RegisterNetEvent("HideAllUI")
+AddEventHandler("HideAllUI", function()
+    showUI = not showUI
+end)
 
 AddEventHandler('RSGCore:Client:OnPlayerLoaded', function()
     isLoggedIn = true
@@ -54,7 +60,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         Wait(5)
-        if isLoggedIn and incinematic == false and inBathing == false then
+        if isLoggedIn and incinematic == false and inBathing == false and showUI then
             DrawTxt("ID : "..tonumber(GetPlayerServerId(PlayerId())).."  - Temp : "..tonumber(roundtemp).."°c - Time : "..string.format("%0.2d", GetClockHours())..":"..string.format("%0.2d", GetClockMinutes()).." - Cash : $"..string.format("%.2f", cashAmount), 0.01, 0.97, 0.4, 0.4, true, 255, 255, 255, 255, true)
         end
     end
