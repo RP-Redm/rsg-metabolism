@@ -60,7 +60,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         Wait(5)
-        if isLoggedIn and incinematic == false and inBathing == false and showUI then
+        if isLoggedIn and incinematic == false and inBathing == false and showUI and Config.ShowInfoHud == true then
             DrawTxt("ID : "..tonumber(GetPlayerServerId(PlayerId())).."  - Temp : "..tonumber(roundtemp).."°c - Time : "..string.format("%0.2d", GetClockHours())..":"..string.format("%0.2d", GetClockMinutes()).." - Cash : $"..string.format("%.2f", cashAmount), 0.01, 0.97, 0.4, 0.4, true, 255, 255, 255, 255, true)
         end
     end
